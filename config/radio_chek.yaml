@@ -1,0 +1,124 @@
+esphome:
+  name: esp32
+  platform: ESP32
+  board: esp-wrover-kit
+wifi:
+  ssid: "test"
+  password: "test"
+   # Optional manual IP
+  # manual_ip:
+  #   static_ip: 192.168.1.158
+  #   gateway: 192.168.1.1
+  #   subnet: 255.255.255.0
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Eskove Light Fallback Hotspot"
+    password: "WGQPTcgdwPRp"
+captive_portal:
+# Enable logging
+logger:
+# Enable Home Assistant API
+api:
+  password: "111"
+ota:
+  password: "111"
+web_server:
+  
+  
+remote_receiver:
+  pin: GPIO12
+  # inverted: 0
+  dump:
+    - rc_switch
+
+  # tolerance: 50%
+  # filter: 250us
+  # idle: 4ms
+  # buffer_size: 2kb
+  
+# remote_transmitter:
+#   pin: D1
+#   # RF uses a 100% carrier signal
+#   carrier_duty_percent: 100%
+  
+# switch:
+#   - platform: template
+#     name: kitchen
+#     id: kitchen
+#     turn_on_action:
+#       then:
+#        - switch.template.publish:
+#           id: kitchen
+#           state: ON
+#        - remote_transmitter.transmit_rc_switch_raw:
+#           code: '10101101010010100010011'
+#           protocol: 1
+#             # pulse_length: 302
+#             # sync: [1,31]
+#             # zero: [1,3]
+#             # one: [3,1]
+#             # inverted: false
+#     turn_off_action:
+#       then:
+#         - switch.template.publish:
+#             id: kitchen
+#             state: Off
+#         - remote_transmitter.transmit_rc_switch_raw:
+#             code: '10101101010010100010011'
+#             protocol: 2
+#               # pulse_length: 312
+#   - platform: template
+#     name: guestroom
+#     id: guestroom
+#     turn_on_action:
+#       then:
+#         - switch.template.publish:
+#             id: guestroom
+#             state: ON
+#         - remote_transmitter.transmit_rc_switch_type_a:
+#             group: '01001'
+#             device: '10110'
+#             state: off
+#     turn_off_action:
+#       then:
+#         - switch.template.publish:
+#             id: guestroom
+#             state: Off
+#         - remote_transmitter.transmit_rc_switch_raw:
+#             code: '1011101100001010011'
+#             protocol:
+#               pulse_length: 350
+
+
+# -------------------------
+  # - platform: template
+  #   name: bedroom
+  #   id: bedroom
+  #   turn_on_action:
+  #     then:
+  #       - switch.template.publish:
+  #           id: bedroom
+  #           state: ON
+  #       - remote_transmitter.transmit_rc_switch_raw:
+  #           code: '1001010010011111000'
+  #           protocol:
+  #             pulse_length: 233
+  #   turn_off_action:
+  #     then:
+  #       - switch.template.publish:
+  #           id: bedroom
+  #           state: OFF
+  #       - remote_transmitter.transmit_rc_switch_raw:
+  #           code: '1001010010011111000'
+  #           protocol:
+  #             pulse_length: 233
+
+barrier_code
+закрытие
+22:14:51.832 -> Decimal: 6494594 (24Bit) Binary: 011000110001100110000010 Tri-State: not applicable PulseLength: 152 microseconds Protocol: 1
+22:14:51.832 -> Raw data: 4733,141,456,541,11,884,394,204,403,196,413,136,476,473,127,474,136,139,476,130,478,126,484,472,125,479,131,141,488,118,481,462,142,477,133,137,480,119,493,237,413,192,487,126,485,461,141,133,482,
+Открытие
+22:14:33.001 -> Decimal: 6494593 (24Bit) Binary: 011000110001100110000001 Tri-State: not applicable PulseLength: 153 microseconds Protocol: 1
+22:14:33.035 -> Raw data: 4777,107,478,529,47,570,34,234,426,178,433,174,434,528,54,559,49,219,428,178,438,176,430,516,66,563,37,230,429,173,440,523,49,552,69,215,429,155,454,170,443,162,449,168,441,172,453,514,49,
+

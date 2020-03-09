@@ -1,0 +1,135 @@
+substitutions:
+  plug_name: pte_v2
+esphome:
+  name: pte_v2
+  platform: ESP8266
+  board: esp12e
+
+wifi:
+  ssid: "NPM Wi-Fi"
+  password: "test"
+  manual_ip:
+  #   static_ip: 10.4.1.62
+  #   gateway: 10.4.1.201
+  #   subnet: 255.255.255.0
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Test Fallback Hotspot"
+    password: "hyBhldCbM1t3"
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "RrsbVyrLG4yxB2AD"
+  reboot_timeout: 1000min
+
+ota:
+  password: "RrsbVyrLG4yxB2AD"
+  
+web_server:
+  # css_url: ""
+  # css_include: "/config/static/webserver-v1.min.css"
+  # js_url: ""
+  # js_include: "/config/static/webserver-v1.min.js"
+
+#D0 status led
+status_led:
+  pin:
+    number: GPIO2
+    inverted: yes
+
+
+binary_sensor:
+  - platform: gpio
+    name: ${plug_name}_ring
+    pin:
+      number: GPIO16
+      # mode: INPUT_PULLUP
+    id: switch_1
+    # on_press:
+    #   then:
+    #     - switch.turn_on:
+    #         id: relay3
+    #     - delay: 1000ms
+    #     - switch.turn_off:
+    #         id: relay3
+
+
+switch:
+  - platform: gpio
+    name: ${plug_name}_switch_relay_door1
+    pin: GPIO12
+    id: relay
+  - platform: gpio
+    name: ${plug_name}_switch_relay_door1_2
+    pin: GPIO14
+    id: relay1
+  - platform: template
+    name: "Door1"
+    turn_on_action:
+    - switch.turn_on: relay
+    - delay: 1000ms
+    - switch.turn_on: relay1
+    - delay: 2000ms
+    - switch.turn_off: relay1
+    - switch.turn_off: relay
+    # open second door
+    - delay: 15000ms
+    - switch.turn_on: relay2
+    - delay: 500ms
+    - switch.turn_off: relay2
+    - switch.turn_on: relay2
+    - delay: 500ms
+    - switch.turn_off: relay2
+    - switch.turn_on: relay2
+    - delay: 500ms
+    - switch.turn_off: relay2
+    - switch.turn_on: relay2
+    - delay: 500ms
+    - switch.turn_off: relay2
+    - switch.turn_on: relay2
+    - delay: 500ms
+    - switch.turn_off: relay2
+  - platform: gpio
+    name: ${plug_name}_switch_relay_door2
+    pin: GPIO13
+    inverted: yes
+    id: relay2
+  - platform: template
+    name: "Door2"
+    turn_on_action:
+    - switch.turn_on: relay2
+    - delay: 500ms
+    - switch.turn_off: relay2
+  - platform: gpio
+    name: ${plug_name}_switch_shalgbaum_open
+    pin: GPIO5
+    inverted: true
+    id: relay3
+  - platform: template
+    name: "barrier_open"
+    turn_on_action:
+      - switch.turn_on: relay3
+      - delay: 2s
+      - switch.turn_off: relay3
+  - platform: gpio    
+    name: ${plug_name}_switch_shalgbaum_close
+    pin: GPIO4
+    inverted: true
+    id: relay4
+  - platform: template
+    name: "barrier_close"
+    turn_on_action:
+      - switch.turn_on: relay4
+      - delay: 2s
+      - switch.turn_off: relay4
+
+sensor:
+   - platform: uptime
+     name: ${plug_name}_uptime
+   - platform: wifi_signal
+     name: ${plug_name}_wifi_signal
+     update_interval: 15s
